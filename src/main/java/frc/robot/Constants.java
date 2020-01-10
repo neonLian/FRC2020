@@ -49,4 +49,10 @@ public final class Constants
         public static final double DriveSpeed = 0.3;
         public static final double HangSpeed = 0.4;
     }
+
+    public static class Pneumatics
+    {
+        public static final int Solenoid1 = 0;
+        public static final int Solenoid2 = 1;
+    }
 }

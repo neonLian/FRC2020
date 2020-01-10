@@ -7,7 +7,9 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -72,5 +74,17 @@ public class HangSubsystem extends SubsystemBase {
   }
 
   /** Pneumatics version **/
+  DoubleSolenoid hangDS = new DoubleSolenoid(Constants.Pneumatics.Solenoid1, Constants.Pneumatics.Solenoid2);
+
+  public void pneumaticsPeriodic()
+  {
+    // TODO: Determine whether motors or pneumatics will be used for hanging
+    if (isRising())
+      hangDS.set(Value.kForward);
+    else if (isLowering())
+      hangDS.set(Value.kReverse);
+    else
+      hangDS.set(Value.kOff);
+  }
 
 }

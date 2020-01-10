@@ -19,12 +19,12 @@ public class RotateSubsystem extends SubsystemBase {
 
   public void rotationalControl()
   {
-    
+    // TODO: rotational control 
   }
 
   public void positionalControl()
   {
-
+    // TODO: positional control
   }
 
   public char getTargetColor()
