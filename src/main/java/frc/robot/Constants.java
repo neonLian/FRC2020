@@ -19,10 +19,16 @@ public final class Constants
 {
     public static class MotorPorts
     {
-        public static final int FrontRight = 0;
-        public static final int FrontLeft = 1;
-        public static final int BackRight = 2;
-        public static final int BackLeft = 3;
+        // public static final int FrontRight = 15;
+        // public static final int FrontLeft = 2;
+        // public static final int BackRight = 24;
+        // public static final int BackLeft = 42;
+
+        public static final int FrontRight = 48;
+        public static final int FrontLeft = 47;
+        public static final int BackRight = 12;
+        public static final int BackLeft = 42;
+
         public static final int RotateMotor = 4;
 
         public static final int Shoot1 = 5;
@@ -33,8 +39,11 @@ public final class Constants
 
     public static class OI
     {
-        public static final int RotateButton = 0;
+        
         public static final int ShootButton = 1;
+        public static final int ManualRotateButton = 2;
+        public static final int AutoRotationalControl = 4;
+        public static final int AutoPositionalControl = 5;
     }
 
     public static class SensorPorts
@@ -46,8 +55,9 @@ public final class Constants
     public static class Speeds
     {
         public static final double ShootSpeed = 0.8;
-        public static final double DriveSpeed = 0.3;
+        public static final double DriveSpeed = 0.2;
         public static final double HangSpeed = 0.4;
+        public static final double RotateSpeed = 0.3;
     }
 
     public static class Pneumatics

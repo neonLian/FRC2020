@@ -8,7 +8,9 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -20,13 +22,17 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private DriveSubsystem driveSubsystem = new DriveSubsystem();
   private ShootSubsystem shootSubsystem = new ShootSubsystem();
-  private SensorSubsystem sensorSubsystem = new SensorSubsystem();
+  private SensorSubsystem sensors = new SensorSubsystem();
+  private RotateSubsystem rotateSubsystem = new RotateSubsystem();
 
-  private Command autonomousCommand = new AutonomousCommand(driveSubsystem, shootSubsystem, sensorSubsystem);
+  private Command autonomousCommand = new AutonomousCommand(driveSubsystem, shootSubsystem, sensors);
   
   private Joystick joystick = new Joystick(0);
   private JoystickButton shootButton = new JoystickButton(joystick, Constants.OI.ShootButton);
+  private JoystickButton autoRotateControlButton = new JoystickButton(joystick, Constants.OI.AutoRotationalControl);
+  private JoystickButton autoPositionControlButton = new JoystickButton(joystick, Constants.OI.AutoPositionalControl);
   
+  private JoystickButton debugButton = new JoystickButton(joystick, 3);
 
   // Constructor
   public RobotContainer()
@@ -42,6 +48,15 @@ public class RobotContainer {
 
     // Map buttons
     shootButton.whileHeld(new StartEndCommand(shootSubsystem::startShooting, shootSubsystem::stopShooting));
+    autoRotateControlButton.whenPressed(new RotationalControl(rotateSubsystem, sensors));
+    autoPositionControlButton.whenPressed(new PositionalControl(rotateSubsystem, sensors));
+
+    debugButton.whileHeld(new InstantCommand(() -> {
+      SmartDashboard.putString("Debug color", sensors.colorString(sensors.getColor()));
+      SmartDashboard.putString("Color guess", sensors.guessColor(sensors.getColor()).name());
+    }));
+
+
   }
 
   // Add any code for selecting which autonomous command is used in this method.

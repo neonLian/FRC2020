@@ -7,8 +7,9 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -54,22 +55,23 @@ public class HangSubsystem extends SubsystemBase {
 
 
   /*** Motor version ***/
-  Talon hangMotor1 = new Talon(Constants.MotorPorts.Hang1);
+  // WPI_TalonSRX hangMotor1 = new WPI_TalonSRX(Constants.MotorPorts.Hang1);
   
   @Override
   public void periodic()
   {
+    // TODO: Hanging mechanism
     if (isRising())
     {
-      hangMotor1.set(Constants.Speeds.HangSpeed);
+      // hangMotor1.set(Constants.Speeds.HangSpeed);
     }
     else if (isLowering())
     {
-      hangMotor1.set(-Constants.Speeds.HangSpeed);
+      // hangMotor1.set(-Constants.Speeds.HangSpeed);
     }
     else
     {
-      hangMotor1.set(0);
+      // hangMotor1.set(0);
     }
   }
 

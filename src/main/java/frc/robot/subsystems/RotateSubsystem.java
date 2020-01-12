@@ -7,24 +7,22 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class RotateSubsystem extends SubsystemBase {
   /*** This subsystem is for operating the robot mechanism to rotate the control panel. ***/
   
-  Talon rotateMotor = new Talon(Constants.MotorPorts.RotateMotor);
+  // WPI_TalonSRX rotateMotor = new WPI_TalonSRX(Constants.MotorPorts.RotateMotor);
 
-  public void rotationalControl()
+  public void setSpeed(double speed)
   {
-    // TODO: rotational control 
-  }
-
-  public void positionalControl()
-  {
-    // TODO: positional control
+    // TODO: Rotate motor
+    // rotateMotor.set(speed);
   }
 
   public char getTargetColor()
@@ -34,6 +32,7 @@ public class RotateSubsystem extends SubsystemBase {
     gameData = DriverStation.getInstance().getGameSpecificMessage();
     if(gameData.length() > 0)
     {
+      SmartDashboard.putString("Game data", String.valueOf(gameData.charAt(0)));
       return gameData.charAt(0);
     }
     else

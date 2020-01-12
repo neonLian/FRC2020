@@ -7,14 +7,15 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.Talon;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class ShootSubsystem extends SubsystemBase {
 
-  Talon shootWheel1 = new Talon(Constants.MotorPorts.Shoot1);
-  Talon shootWheel2 = new Talon(Constants.MotorPorts.Shoot2);
+  WPI_TalonSRX shootWheel1 = new WPI_TalonSRX(Constants.MotorPorts.Shoot1);
+  WPI_TalonSRX shootWheel2 = new WPI_TalonSRX(Constants.MotorPorts.Shoot2);
 
   private boolean isShooting = false;
 
