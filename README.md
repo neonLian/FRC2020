@@ -64,7 +64,7 @@ This subsystem contains the talon/victor object for rotating the control panel. 
 
 # Constants
 
-All variables in `Constants.java` are ```java public static final```. Constants are organized in the following subclasses: `MotorPorts`, `OI`, `SensorPorts`, `Speeds`, and `Pneumatics`.
+All variables in `Constants.java` are `public static final`. Constants are organized in the following subclasses: `MotorPorts`, `OI`, `SensorPorts`, `Speeds`, and `Pneumatics`.
 
 To get a value from `Constants`, use the format `Constants.<subclass>.<value>`.
 Example: `Constants.MotorPorts.FrontRight`
