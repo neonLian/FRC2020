@@ -61,3 +61,14 @@ This subsystem contains the talon/victor object for rotating the control panel. 
 `PositionalControl.java` will enable the robot motor in `RotateSubsystem` until the robot has seen the color that is perpendicular to the target color returned from `SensorSubsystem::getTargetColor`. If there is no target color returned (this will happen if stage 3 has not been reached), the command will automatically be canceled.
 
 `PositionalControl` is currently binded to a joystick button (the exact button is found in `Constants.OI.AutoPositionalControl`).
+
+# Constants
+
+All variables in `Constants.java` are ```java public static final```. Constants are organized in the following subclasses: `MotorPorts`, `OI`, `SensorPorts`, `Speeds`, and `Pneumatics`.
+
+To get a value from `Constants`, use the format `Constants.<subclass>.<value>`.
+Example: `Constants.MotorPorts.FrontRight`
+
+# RobotContainer
+
+`RobotContainer.java` contains all subsystem and command objects as well as OI objects and code. The OI code is written in `configureButtonBindings()`.
