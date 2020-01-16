@@ -8,21 +8,62 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.revrobotics.ColorSensorV3;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.I2C;
+import frc.robot.ColorType;
 import frc.robot.Constants;
 
 public class RotateSubsystem extends SubsystemBase {
   /*** This subsystem is for operating the robot mechanism to rotate the control panel. ***/
   
-  // WPI_TalonSRX rotateMotor = new WPI_TalonSRX(Constants.MotorPorts.RotateMotor);
+  WPI_TalonSRX rotateMotor = new WPI_TalonSRX(Constants.MotorPorts.RotateMotor);
 
   public void setSpeed(double speed)
   {
-    // TODO: Rotate motor
-    // rotateMotor.set(speed);
+    rotateMotor.set(speed);
+  }
+
+  public ColorSensorV3 colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
+
+  public Color getColor()
+  {
+    /*** Gets the raw color values from the color sensor ***/
+    return colorSensor.getColor();
+  }
+
+  public ColorType guessColor(Color color)
+  {
+    /*** Attempts to determine if the given color is red, green, blue or yellow. ***/
+    if (color.red < 0.35 && color.green >= 0.4 && color.blue >= 0.3)
+      return ColorType.Blue;
+    else if (color.red < 0.3 && color.green >= 0.5 && color.blue >= 0.2)
+      return ColorType.Green;
+    else if (color.red >= 0.4 && color.green < 0.45 && color.blue <= 0.2)
+      return ColorType.Red;
+    else if (color.red >= 0.3 && color.green >= 0.45 && color.blue < 0.2)
+      return ColorType.Yellow;
+    else
+      return ColorType.Unknown;
+  }
+
+  public boolean isControlPanelColor(Color color)
+  {
+    return guessColor(color) != ColorType.Unknown;
+  }
+
+  public boolean isControlPanelColor(ColorType colorType)
+  {
+    return colorType != ColorType.Unknown;
+  }
+
+  public String colorString(Color color)
+  {
+    return String.format("(%.2f, %.2f, %.2f)", color.red, color.green, color.blue);
   }
 
   public char getTargetColor()

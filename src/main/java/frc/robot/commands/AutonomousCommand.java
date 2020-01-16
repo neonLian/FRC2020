@@ -9,24 +9,21 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.SensorSubsystem;
 import frc.robot.subsystems.ShootSubsystem;
 
 public class AutonomousCommand extends CommandBase {
 
   private DriveSubsystem driveSubsystem;
   private ShootSubsystem shootSubsystem;
-  private SensorSubsystem sensorSubsystem;
 
   private boolean autonomousFinished = false;
 
   private int step = 1;
   
-  public AutonomousCommand(DriveSubsystem driveSubsystem, ShootSubsystem shootSubsystem, SensorSubsystem sensorSubsystem) {
+  public AutonomousCommand(DriveSubsystem driveSubsystem, ShootSubsystem shootSubsystem) {
     this.driveSubsystem = driveSubsystem;
     this.shootSubsystem = shootSubsystem;
-    this.sensorSubsystem = sensorSubsystem;
-    addRequirements(driveSubsystem, shootSubsystem, sensorSubsystem);
+    addRequirements(driveSubsystem, shootSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -47,16 +44,16 @@ public class AutonomousCommand extends CommandBase {
     else if (step == 4)
     {
       shootSubsystem.stopShooting();
-      sensorSubsystem.encoder.reset();
-      sensorSubsystem.encoder.setDistancePerPulse(1);
+      driveSubsystem.encoder.reset();
+      driveSubsystem.encoder.setDistancePerPulse(1);
       driveSubsystem.tankDrive(-1, -1);
       step++;
     }
     else if (step == 5)
     {
-      if (sensorSubsystem.encoder.getDistance() > 5) // will probably be replaced by sensor code
+      if (driveSubsystem.encoder.getDistance() > 5) // will probably be replaced by sensor code
       {
-        sensorSubsystem.encoder.reset();
+        driveSubsystem.encoder.reset();
         driveSubsystem.tankDrive(1, 1);
         step++;
       } 
@@ -64,7 +61,7 @@ public class AutonomousCommand extends CommandBase {
     }
     else if (step == 6)
     {
-      if (sensorSubsystem.encoder.getDistance() > 5)
+      if (driveSubsystem.encoder.getDistance() > 5)
       {
         step++;
       }

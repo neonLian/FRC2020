@@ -12,12 +12,10 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.ColorType;
 import frc.robot.Constants;
 import frc.robot.subsystems.RotateSubsystem;
-import frc.robot.subsystems.SensorSubsystem;
 
 public class RotationalControl extends CommandBase {
 
 	private RotateSubsystem rotateSubsystem;
-	private SensorSubsystem sensors;
 
 	private ColorType startingColor;
 	private ColorType lastColor;
@@ -26,10 +24,9 @@ public class RotationalControl extends CommandBase {
 
 	private boolean done = false;
 
-	public RotationalControl(RotateSubsystem rotateSubsystem, SensorSubsystem sensorSubsystem) {
+	public RotationalControl(RotateSubsystem rotateSubsystem) {
 		this.rotateSubsystem = rotateSubsystem;
-		this.sensors = sensorSubsystem;
-		addRequirements(rotateSubsystem, sensorSubsystem);
+		addRequirements(rotateSubsystem);
 	}
 
 	// Called when the command is initially scheduled.
@@ -38,7 +35,7 @@ public class RotationalControl extends CommandBase {
 		done = false;
 		numRotations = 0;
 
-		startingColor = sensors.guessColor(sensors.getColor());
+		startingColor = rotateSubsystem.guessColor(rotateSubsystem.getColor());
 		lastColor = ColorType.Unknown;
 
 		if (startingColor == ColorType.Unknown)
@@ -53,7 +50,7 @@ public class RotationalControl extends CommandBase {
 	@Override
 	public void execute() {
 		/*** Counts the number of rotations based on how many times the robot has seen the start color. ***/
-		ColorType currentColor = sensors.guessColor(sensors.getColor());
+		ColorType currentColor = rotateSubsystem.guessColor(rotateSubsystem.getColor());
 		if (numRotations < maxRotations) {
 			if (startingColor != lastColor && currentColor == startingColor)
 				numRotations += 0.5; // Only increment by 0.5 because a color will be seen twice per rotation

@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 // import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -31,7 +32,7 @@ public class DriveSubsystem extends SubsystemBase {
   public WPI_VictorSPX backLeft = new WPI_VictorSPX(Constants.MotorPorts.BackLeft);
 
   // Sensors
-  // public Encoder encoder = new Encoder(Constants.SensorPorts.EncoderPort1, Constants.SensorPorts.EncoderPort2);
+  public Encoder encoder = new Encoder(Constants.SensorPorts.EncoderPort1, Constants.SensorPorts.EncoderPort2);
 
   public void arcadeDrive(double stickX, double stickY)
   {
@@ -40,7 +41,7 @@ public class DriveSubsystem extends SubsystemBase {
 
       double lvalue = -stickY + stickX;
       double rvalue = -stickY - stickX;
-      rvalue *= -1;
+      rvalue *= -1; // remove if the right side does not need to be inverted
 
       lvalue = clamp(lvalue, -1, 1);
       rvalue = clamp(rvalue, -1, 1);

@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.ColorType;
 import frc.robot.Constants;
 import frc.robot.subsystems.RotateSubsystem;
-import frc.robot.subsystems.SensorSubsystem;
 
 public class PositionalControl extends CommandBase {
   
@@ -20,12 +19,10 @@ public class PositionalControl extends CommandBase {
   private boolean done = false;
 
 	private RotateSubsystem rotateSubsystem;
-	private SensorSubsystem sensors;
   
-	public PositionalControl(RotateSubsystem rotateSubsystem, SensorSubsystem sensorSubsystem) {
+	public PositionalControl(RotateSubsystem rotateSubsystem) {
 		this.rotateSubsystem = rotateSubsystem;
-		this.sensors = sensorSubsystem;
-		addRequirements(rotateSubsystem, sensorSubsystem);
+		addRequirements(rotateSubsystem);
 	}
 
   // Called when the command is initially scheduled.
@@ -44,7 +41,7 @@ public class PositionalControl extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    ColorType currentColor = sensors.guessColor(sensors.getColor());
+    ColorType currentColor = rotateSubsystem.guessColor(rotateSubsystem.getColor());
     if (targetColor == 0)
       done = true;
     else if (targetColor == 'R' && currentColor == ColorType.Blue)

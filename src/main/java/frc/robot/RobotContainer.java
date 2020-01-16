@@ -22,10 +22,9 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private DriveSubsystem driveSubsystem = new DriveSubsystem();
   private ShootSubsystem shootSubsystem = new ShootSubsystem();
-  private SensorSubsystem sensors = new SensorSubsystem();
   private RotateSubsystem rotateSubsystem = new RotateSubsystem();
 
-  private Command autonomousCommand = new AutonomousCommand(driveSubsystem, shootSubsystem, sensors);
+  private Command autonomousCommand = new AutonomousCommand(driveSubsystem, shootSubsystem);
   
   private Joystick joystick = new Joystick(0);
   private JoystickButton shootButton = new JoystickButton(joystick, Constants.OI.ShootButton);
@@ -48,12 +47,12 @@ public class RobotContainer {
 
     // Map buttons
     shootButton.whileHeld(new StartEndCommand(shootSubsystem::startShooting, shootSubsystem::stopShooting));
-    autoRotateControlButton.whenPressed(new RotationalControl(rotateSubsystem, sensors));
-    autoPositionControlButton.whenPressed(new PositionalControl(rotateSubsystem, sensors));
+    autoRotateControlButton.whenPressed(new RotationalControl(rotateSubsystem));
+    autoPositionControlButton.whenPressed(new PositionalControl(rotateSubsystem));
 
     debugButton.whileHeld(new InstantCommand(() -> {
-      SmartDashboard.putString("Debug color", sensors.colorString(sensors.getColor()));
-      SmartDashboard.putString("Color guess", sensors.guessColor(sensors.getColor()).name());
+      SmartDashboard.putString("Debug color", rotateSubsystem.colorString(rotateSubsystem.getColor()));
+      SmartDashboard.putString("Color guess", rotateSubsystem.guessColor(rotateSubsystem.getColor()).name());
     }));
 
 
