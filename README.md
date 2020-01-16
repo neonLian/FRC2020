@@ -10,6 +10,23 @@ The code currently has the following features:
 
 There is also some placeholder code written for autonomous, hanging, and shooting.
 
+# Setup
+
+## General
+* Clone this repo
+* Run ./gradlew to download gradle and needed FRC/Vendor libraries
+* Run ./gradlew tasks to see available options
+
+## Visual Studio Code (Official IDE)
+* Get the WPILib extension for easiest use from the VSCode Marketplace - Requires Java 11 or greater
+* In .vscode/settings.json, set the User Setting, java.home, to the correct directory pointing to your JDK 11 directory
+
+## Basic Gradle Commands
+* Run ./gradlew deploy to deploy to the robot in Terminal (\*nix) or Powershell (Windows)
+* Run ./gradlew build to build the code. Use the --info flag for more details
+* Run ./gradlew test to run all of the JUnit tests
+
+
 # Subsystems
 
 ## DriveSubsystem
