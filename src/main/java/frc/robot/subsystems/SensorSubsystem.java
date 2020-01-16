@@ -32,13 +32,13 @@ public class SensorSubsystem extends SubsystemBase {
   public ColorType guessColor(Color color)
   {
     /*** Attempts to determine if the given color is red, green, blue or yellow. ***/
-    if (color.red <= 0.25 && color.green >= 0.4 && color.blue >= 0.3)
+    if (color.red < 0.35 && color.green >= 0.4 && color.blue >= 0.3)
       return ColorType.Blue;
-    else if (color.red <= 0.25 && color.green >= 0.5 && color.blue >= 0.2)
+    else if (color.red < 0.3 && color.green >= 0.5 && color.blue >= 0.2)
       return ColorType.Green;
-    else if (color.red >= 0.55 && color.green >= 0.25 && color.blue <= 0.2)
+    else if (color.red >= 0.4 && color.green < 0.45 && color.blue <= 0.2)
       return ColorType.Red;
-    else if (color.red >= 0.35 && color.green >= 0.45 && color.blue <= 0.2)
+    else if (color.red >= 0.3 && color.green >= 0.45 && color.blue < 0.2)
       return ColorType.Yellow;
     else
       return ColorType.Unknown;

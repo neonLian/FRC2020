@@ -55,10 +55,10 @@ public class RotationalControl extends CommandBase {
 		/*** Counts the number of rotations based on how many times the robot has seen the start color. ***/
 		ColorType currentColor = sensors.guessColor(sensors.getColor());
 		if (numRotations < maxRotations) {
-			if (startingColor != lastColor && currentColor == startingColor) {
+			if (startingColor != lastColor && currentColor == startingColor)
 				numRotations += 0.5; // Only increment by 0.5 because a color will be seen twice per rotation
-			}
-			lastColor = currentColor;
+			if (currentColor	 != ColorType.Unknown)
+				lastColor = currentColor;
 		} else
 			done = true;
 		
