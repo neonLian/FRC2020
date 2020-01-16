@@ -43,3 +43,21 @@ This subsystem contains the talon/victor object for rotating the control panel. 
 `getTargetColor()` returns `'R'`, `'B'`, `'G'`, or `'Y'` depending on which value was received by the DriverStation's game data. If no value was received (this will happen when stage 3 has not been reached) then `getTargetColor()` will return the integer `0` (not `'0'`)
 
 `SensorSubsystem` is currently used by the `RotationalControl` and `PositionalControl` commands.
+
+# Commands
+
+## AutonomousCommand
+
+`AutonomousCommand.java` currently has some placeholder code for an autonomous that will shoot three power cells at the target, back up, pick up more power cells, and launch those power cells at the target. This command has not been tested and requires more code for timing power cell shots, loading power cells, and turning the robot after shooting.
+
+## RotationalControl
+
+`RotationalControl.java` will enable the rotate motor in `RotateSubsystem` until the robot has seen the same color 8 times (each color appears twice on the color panel, there are an extra 2 times in case a color doesn't get detected). If the robot cannot recognize the color when the command is initialized, it will be automatically canceled.
+
+`RotationalControl` is currently binded to a joystick button (the exact button is found in `Constants.OI.AutoRotationalControl`).
+
+## PositionalControl
+
+`PositionalControl.java` will enable the robot motor in `RotateSubsystem` until the robot has seen the color that is perpendicular to the target color returned from `SensorSubsystem::getTargetColor`. If there is no target color returned (this will happen if stage 3 has not been reached), the command will automatically be canceled.
+
+`PositionalControl` is currently binded to a joystick button (the exact button is found in `Constants.OI.AutoPositionalControl`).
