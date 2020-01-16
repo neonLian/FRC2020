@@ -71,4 +71,4 @@ Example: `Constants.MotorPorts.FrontRight`
 
 # RobotContainer
 
-`RobotContainer.java` contains all subsystem and command objects as well as OI objects and code. The OI code is written in `configureButtonBindings()`.
+`RobotContainer.java` contains all subsystem and command objects as well as OI objects and code. The OI code is written in `configureButtonBindings()`. It currently binds the joystick axis to arcade drive and binds buttons to the rotational and positional control commands. There is also a button that will output the current color detected to SmartDashboard.
