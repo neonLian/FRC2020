@@ -45,13 +45,7 @@ This subsystem will be used for the motors or pneumatics systems that will help 
 
 ## RotateSubsystem
 
-This subsystem contains the talon/victor object for rotating the control panel. It also contains a `setSpeed()` method for setting the speed of that motor.
-
-`RotateSubsystem` is currently used by the `RotationalControl` and `PositionalControl` commands.
-
-## SensorSubsystem
-
-`SensorSubsystem.java` contains code for reading the color value from the color sensor and classifying that color as Blue, Red, Green, Yellow, or Unknown. It also contains code for finding the target color to rotate the control panel to in stage 3. The color sensor object and encoder sensor object are stored in this subsystem.
+`RotateSubsystem` contains code for reading the color value from the color sensor and classifying that color as Blue, Red, Green, Yellow, or Unknown. It also contains code for finding the target color to rotate the control panel to in stage 3. The color sensor object and encoder sensor object are stored in this subsystem. This subsystem contains the talon/victor object for rotating the control panel and a `setSpeed()` method for setting the speed of that motor.
 
 `getColor()` returns a `edu.wpi.first.wpilibj.util.Color` object that contains the raw values of the color detected from the color sensor.
 
@@ -59,7 +53,9 @@ This subsystem contains the talon/victor object for rotating the control panel. 
 
 `getTargetColor()` returns `'R'`, `'B'`, `'G'`, or `'Y'` depending on which value was received by the DriverStation's game data. If no value was received (this will happen when stage 3 has not been reached) then `getTargetColor()` will return the integer `0` (not `'0'`)
 
-`SensorSubsystem` is currently used by the `RotationalControl` and `PositionalControl` commands.
+`setSpeed(double speed)` will set the rotate motor to the speed specified multiplied by `Constants.Speeds.RotateSpeed`.
+
+`RotateSubsystem` is currently used by the `RotationalControl` and `PositionalControl` commands. 
 
 # Commands
 
@@ -75,7 +71,7 @@ This subsystem contains the talon/victor object for rotating the control panel. 
 
 ## PositionalControl
 
-`PositionalControl.java` will enable the robot motor in `RotateSubsystem` until the robot has seen the color that is perpendicular to the target color returned from `SensorSubsystem::getTargetColor`. If there is no target color returned (this will happen if stage 3 has not been reached), the command will automatically be canceled.
+`PositionalControl.java` will enable the robot motor in `RotateSubsystem` until the robot has seen the color that is perpendicular to the target color returned from `RotateSubsystem::getTargetColor`. If there is no target color returned (this will happen if stage 3 has not been reached), the command will automatically be canceled.
 
 `PositionalControl` is currently binded to a joystick button (the exact button is found in `Constants.OI.AutoPositionalControl`).
 
