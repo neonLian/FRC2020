@@ -44,12 +44,14 @@ public final class Constants
         public static final int ManualRotateButton = 2;
         public static final int AutoRotationalControl = 4;
         public static final int AutoPositionalControl = 5;
+        public static final int AutoAimButton = 6;
     }
 
     public static class SensorPorts
     {
         public static final int EncoderPort1 = 0;
         public static final int EncoderPort2 = 1;
+        public static final int Gyro = 2;
     }
 
     public static class Speeds

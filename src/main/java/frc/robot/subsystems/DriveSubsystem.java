@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 // import edu.wpi.first.wpilibj.Talon;
@@ -33,6 +34,55 @@ public class DriveSubsystem extends SubsystemBase {
 
   // Sensors
   public Encoder encoder = new Encoder(Constants.SensorPorts.EncoderPort1, Constants.SensorPorts.EncoderPort2);
+  public AnalogInput gyro = new AnalogInput(Constants.SensorPorts.Gyro);
+
+  // PID Control
+  private double P = 0.05;
+  private double I = 0.02;
+  private double D = 0.03;
+  private double derivative, integral, error, previous_error = 0;
+  private double setpoint = 0;
+  
+
+  public double PIDRotate()
+  {
+    error = Math.abs(setpoint - gyro.getValue());
+    integral += error * 0.2;
+    derivative = (error - previous_error) / .02;
+    previous_error = error;
+    return P * error + I * integral + D * derivative;
+  }
+
+  public double PIDDrive()
+  {
+    error = Math.abs(setpoint - encoder.get());
+    integral += error * 0.2;
+    derivative = (error - previous_error) / .02;
+    previous_error = error;
+    return P * error + I * integral + D * derivative;
+  }
+
+  public double PIDCustom(double error)
+  {
+    integral += error * 0.2;
+    derivative = (error - previous_error) / .02;
+    previous_error = error;
+    return P * error + I * integral + D * derivative;
+  }
+
+  public void setSetpoint(double sp)
+  {
+    setpoint = sp;
+  }
+
+  public void resetPID()
+  {
+    error = 0;
+    previous_error = 0;
+    integral = 0;
+  }
+
+
 
   public void arcadeDrive(double stickX, double stickY)
   {
@@ -61,6 +111,8 @@ public class DriveSubsystem extends SubsystemBase {
     backLeft.set(lvalue*speed);
     backRight.set(rvalue*speed);
 
+    
+
     SmartDashboard.putNumber("Left Speed", lvalue);
     SmartDashboard.putNumber("Right Speed", rvalue);
   }
@@ -72,7 +124,9 @@ public class DriveSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    P = SmartDashboard.getNumber("Editable: kP", P);
+    I = SmartDashboard.getNumber("Editable: kI", I);
+    D = SmartDashboard.getNumber("Editable: kD", D);
   }
 
   private static double clamp (double x, double min, double max)

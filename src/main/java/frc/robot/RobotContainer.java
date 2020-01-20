@@ -23,6 +23,7 @@ public class RobotContainer {
   private DriveSubsystem driveSubsystem = new DriveSubsystem();
   private ShootSubsystem shootSubsystem = new ShootSubsystem();
   private RotateSubsystem rotateSubsystem = new RotateSubsystem();
+  private LimelightSubsystem limelightSubsystem = new LimelightSubsystem();
 
   private Command autonomousCommand = new AutonomousCommand(driveSubsystem, shootSubsystem);
   
@@ -30,6 +31,7 @@ public class RobotContainer {
   private JoystickButton shootButton = new JoystickButton(joystick, Constants.OI.ShootButton);
   private JoystickButton autoRotateControlButton = new JoystickButton(joystick, Constants.OI.AutoRotationalControl);
   private JoystickButton autoPositionControlButton = new JoystickButton(joystick, Constants.OI.AutoPositionalControl);
+  private JoystickButton autoAimButton = new JoystickButton(joystick, Constants.OI.AutoAimButton);
   
   private JoystickButton debugButton = new JoystickButton(joystick, 3);
 
@@ -54,6 +56,8 @@ public class RobotContainer {
       SmartDashboard.putString("Debug color", rotateSubsystem.colorString(rotateSubsystem.getColor()));
       SmartDashboard.putString("Color guess", rotateSubsystem.guessColor(rotateSubsystem.getColor()).name());
     }));
+
+    autoAimButton.whenPressed(new LimelightAutoAim(driveSubsystem, limelightSubsystem));
 
 
   }

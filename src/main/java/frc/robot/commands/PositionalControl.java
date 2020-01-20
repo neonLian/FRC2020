@@ -10,7 +10,6 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.ColorType;
-import frc.robot.Constants;
 import frc.robot.subsystems.RotateSubsystem;
 
 public class PositionalControl extends CommandBase {
@@ -34,7 +33,7 @@ public class PositionalControl extends CommandBase {
     if (targetColor == 0)
       done = true;
     else
-      rotateSubsystem.setSpeed(Constants.Speeds.RotateSpeed);
+      rotateSubsystem.setSpeed(1);
     
   }
 

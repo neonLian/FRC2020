@@ -25,7 +25,7 @@ public class RotateSubsystem extends SubsystemBase {
 
   public void setSpeed(double speed)
   {
-    rotateMotor.set(speed);
+    rotateMotor.set(speed*Constants.Speeds.RotateSpeed);
   }
 
   public ColorSensorV3 colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
