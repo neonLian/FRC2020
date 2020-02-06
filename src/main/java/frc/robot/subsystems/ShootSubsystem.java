@@ -8,14 +8,19 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class ShootSubsystem extends SubsystemBase {
 
-  WPI_TalonSRX shootWheel1 = new WPI_TalonSRX(Constants.MotorPorts.Shoot1);
-  WPI_TalonSRX shootWheel2 = new WPI_TalonSRX(Constants.MotorPorts.Shoot2);
+  CANSparkMax shootWheel1 = new CANSparkMax(Constants.MotorPorts.Shoot1, MotorType.kBrushless);
+  CANSparkMax shootWheel2 = new CANSparkMax(Constants.MotorPorts.Shoot2, MotorType.kBrushless);
+
+  DigitalInput irSensor = new DigitalInput(Constants.SensorPorts.IRSensor);
 
   private boolean isShooting = false;
 
@@ -31,6 +36,11 @@ public class ShootSubsystem extends SubsystemBase {
 
   public void setShooting(boolean shoot) {
     isShooting = shoot;
+  }
+
+  public boolean isLoaded()
+  {
+    return irSensor.get();
   }
 
   @Override

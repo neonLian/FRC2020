@@ -21,8 +21,8 @@ public class LimelightAutoAim extends CommandBase {
 
   private int step = 1;
 
-  private final double TX_THRESHOLD = 0.1;
-  private final double TY_THRESHOLD = 0.1;
+  private final double TX_THRESHOLD = 0.6;
+  private final double TY_THRESHOLD = 0.6;
 
 
   public LimelightAutoAim(DriveSubsystem drive, LimelightSubsystem limelightSubsystem) {
@@ -41,6 +41,7 @@ public class LimelightAutoAim extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    SmartDashboard.putNumber("tv", limelight.getTv());
     if (step == 1)
     {
       double tx = limelight.getTx();
@@ -51,23 +52,23 @@ public class LimelightAutoAim extends CommandBase {
       SmartDashboard.putNumber("driveX", driveX);
 
       driveSubsystem.arcadeDrive(driveSubsystem.PIDCustom(tx), 0);
-      if (tx <= TX_THRESHOLD) 
+      if (Math.abs(tx) <= TX_THRESHOLD) 
       {
-        // driveSubsystem.resetPID();
-        // step++;
+        driveSubsystem.resetPID();
+        step++;
       }
     }
     else if (step == 2)
     {
       double ty = limelight.getTy();
-      double driveY = driveSubsystem.PIDCustom(ty);
+      double driveY = -driveSubsystem.PIDCustom(ty);
      
       SmartDashboard.putString("Limelight Status", "Distancing");
       SmartDashboard.putNumber("ty", ty);
       SmartDashboard.putNumber("driveY", driveY);
 
       driveSubsystem.arcadeDrive(0, driveY);
-      if (ty <= TY_THRESHOLD)
+      if (Math.abs(ty) <= TY_THRESHOLD)
       {
         driveSubsystem.resetPID();
         step++;

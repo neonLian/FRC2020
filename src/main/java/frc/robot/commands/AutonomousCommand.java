@@ -38,7 +38,8 @@ public class AutonomousCommand extends CommandBase {
     if (step <= 3)
     {
       shootSubsystem.startShooting();
-      step++; // TODO: Add extra conditions to determine when to stop shooting
+      if (!shootSubsystem.isLoaded())
+        step = 4;
     }
     // Reverse
     else if (step == 4)
@@ -74,7 +75,8 @@ public class AutonomousCommand extends CommandBase {
     else if (step >= 8 && step <= 10)
     {
       shootSubsystem.startShooting();
-      step++; // TODO: Add extra conditions to determine when to stop shooting
+      if (!shootSubsystem.isLoaded())
+        step = 11;
     }
     else
     {

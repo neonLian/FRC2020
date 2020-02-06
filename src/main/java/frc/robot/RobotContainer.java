@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
@@ -32,8 +33,9 @@ public class RobotContainer {
   private JoystickButton autoRotateControlButton = new JoystickButton(joystick, Constants.OI.AutoRotationalControl);
   private JoystickButton autoPositionControlButton = new JoystickButton(joystick, Constants.OI.AutoPositionalControl);
   private JoystickButton autoAimButton = new JoystickButton(joystick, Constants.OI.AutoAimButton);
+  private JoystickButton clearCommandsButton = new JoystickButton(joystick, Constants.OI.ClearCommands);
   
-  private JoystickButton debugButton = new JoystickButton(joystick, 3);
+  // private JoystickButton debugButton = new JoystickButton(joystick, 3);
 
   // Constructor
   public RobotContainer()
@@ -47,18 +49,27 @@ public class RobotContainer {
     RunCommand rc = new RunCommand(() -> driveSubsystem.arcadeDrive(joystick.getX(), joystick.getY()), driveSubsystem);
     driveSubsystem.setDefaultCommand(rc);
 
+    shootButton.whenPressed(new InstantCommand( () -> SmartDashboard.putString("Test", "Value") ));
+    shootButton.whenPressed(new RunCommand( () -> {
+      if (shootSubsystem.isLoaded())
+        shootSubsystem.startShooting();
+    }));
+
     // Map buttons
     shootButton.whileHeld(new StartEndCommand(shootSubsystem::startShooting, shootSubsystem::stopShooting));
     autoRotateControlButton.whenPressed(new RotationalControl(rotateSubsystem));
     autoPositionControlButton.whenPressed(new PositionalControl(rotateSubsystem));
 
-    debugButton.whileHeld(new InstantCommand(() -> {
-      SmartDashboard.putString("Debug color", rotateSubsystem.colorString(rotateSubsystem.getColor()));
-      SmartDashboard.putString("Color guess", rotateSubsystem.guessColor(rotateSubsystem.getColor()).name());
-    }));
+    // debugButton.whileHeld(new InstantCommand(() -> {
+    //   SmartDashboard.putString("Debug color", rotateSubsystem.colorString(rotateSubsystem.getColor()));
+    //   SmartDashboard.putString("Color guess", rotateSubsystem.guessColor(rotateSubsystem.getColor()).name());
+    // }));
 
     autoAimButton.whenPressed(new LimelightAutoAim(driveSubsystem, limelightSubsystem));
 
+    clearCommandsButton.whenPressed(new InstantCommand(() -> {
+      CommandScheduler.getInstance().cancelAll ();
+    }));
 
   }
 

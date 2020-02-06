@@ -38,7 +38,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   // PID Control
   private double P = 0.05;
-  private double I = 0.02;
+  private double I = 0.001;
   private double D = 0.03;
   private double derivative, integral, error, previous_error = 0;
   private double setpoint = 0;

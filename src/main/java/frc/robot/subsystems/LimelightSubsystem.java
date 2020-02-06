@@ -14,11 +14,12 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class LimelightSubsystem extends SubsystemBase {
   
-  private NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+  NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+  
   
   public double getTx()
   {
-    return table.getEntry("tx").getDouble(0);
+    return table.getEntry("tx").getDouble(0.0);
   }
 
   public double getTy()
@@ -26,10 +27,19 @@ public class LimelightSubsystem extends SubsystemBase {
     return table.getEntry("ty").getDouble(0);
   }
 
+  public double getTv()
+  {
+    return table.getEntry("tv").getDouble(0);
+  }
+
   @Override
   public void periodic() {
     // TODO Auto-generated method stub
-    super.periodic();
+    // super.periodic();
+    double tx = table.getEntry("tx").getDouble(0);
+
     SmartDashboard.putNumber("TX", getTx());
+
+    SmartDashboard.putNumber("tx(2)", tx);
   }
 }
