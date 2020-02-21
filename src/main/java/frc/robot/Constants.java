@@ -29,9 +29,9 @@ public final class Constants
         public static final int BackRight = 12;
         public static final int BackLeft = 42;
 
-        public static final int RotateMotor = 4;
+        public static final int RotateMotor = 5;
 
-        public static final int Shoot1 = 5;
+        public static final int Shoot1 = 8;
         public static final int Shoot2 = 6;
 
         public static final int Hang1 = 7;
@@ -40,10 +40,10 @@ public final class Constants
     public static class OI
     {
         
-        public static final int ShootButton = 1;
-        public static final int ManualRotateButton = 2;
-        public static final int AutoRotationalControl = 4;
-        public static final int AutoPositionalControl = 5;
+        public static final int ShootButton = 4;
+        public static final int ManualRotateButton = 5;
+        public static final int AutoRotationalControl = 1;
+        public static final int AutoPositionalControl = 2;
         public static final int AutoAimButton = 6;
         public static final int ClearCommands = 8;
     }
@@ -54,6 +54,8 @@ public final class Constants
         public static final int EncoderPort2 = 1;
         public static final int Gyro = 2;
         public static final int IRSensor = 3;
+        public static final int ShootEncoder1 = 4;
+        public static final int ShootEncoder2 = 5;
     }
 
     public static class Speeds

@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.ColorSensorV3;
 
@@ -22,6 +23,11 @@ public class RotateSubsystem extends SubsystemBase {
   /*** This subsystem is for operating the robot mechanism to rotate the control panel. ***/
   
   WPI_TalonSRX rotateMotor = new WPI_TalonSRX(Constants.MotorPorts.RotateMotor);
+
+  public RotateSubsystem()
+  {
+    rotateMotor.setNeutralMode(NeutralMode.Brake);
+  }
 
   public void setSpeed(double speed)
   {

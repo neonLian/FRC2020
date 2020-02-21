@@ -7,40 +7,52 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.PIDControl;
 
 public class ShootSubsystem extends SubsystemBase {
 
-  CANSparkMax shootWheel1 = new CANSparkMax(Constants.MotorPorts.Shoot1, MotorType.kBrushless);
-  CANSparkMax shootWheel2 = new CANSparkMax(Constants.MotorPorts.Shoot2, MotorType.kBrushless);
+  // CANSparkMax shootWheel = new CANSparkMax(Constants.MotorPorts.Shoot1, MotorType.kBrushless);
+  // CANSparkMax shootWheel2 = new CANSparkMax(Constants.MotorPorts.Shoot2, MotorType.kBrushless);
 
-  DigitalInput irSensor = new DigitalInput(Constants.SensorPorts.IRSensor);
+  TalonFX shootWheel = new TalonFX(Constants.MotorPorts.Shoot1);
+  // PIDControl pidControl = new PIDControl(0.05, 0.001, 0.03);
+  double targetRPM = 600;
 
-  private boolean isShooting = false;
+  public double P = 0.05;
+  public double I = 0.001;
+  public double D = 0.03;
 
-  public void startShooting()
+  public ShootSubsystem()
   {
-    isShooting = true;
-  }
 
-  public void stopShooting()
-  {
-    isShooting = false;
-  }
+    int timeoutMs = 0;
+    int pidIdx = 0;
 
-  public void setShooting(boolean shoot) {
-    isShooting = shoot;
-  }
+    shootWheel.configFactoryDefault();
 
-  public boolean isLoaded()
-  {
-    return irSensor.get();
+    shootWheel.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, pidIdx, timeoutMs);
+    shootWheel.setSensorPhase(true);
+
+    // Coast mode is preferred for shooting because brake mode can damage the motor at high speeds
+    shootWheel.setNeutralMode(NeutralMode.Coast);
+
+    shootWheel.config_kF(pidIdx, 1);
+    shootWheel.config_kP(pidIdx, P);
+    shootWheel.config_kI(pidIdx, I);
+    shootWheel.config_kD(pidIdx, D);
   }
 
   @Override
@@ -48,29 +60,33 @@ public class ShootSubsystem extends SubsystemBase {
   {
     if (isShooting)
     {
-      shootWheel1.set(Constants.Speeds.ShootSpeed);
-      shootWheel2.set(Constants.Speeds.ShootSpeed);
+      double targetVelocity_UnitsPer100ms = targetRPM * 2048 / 600.0;
+      shootWheel.set(ControlMode.Velocity, targetVelocity_UnitsPer100ms);
     }
     else
     {
-      shootWheel1.set(0);
-      shootWheel2.set(0);
+      shootWheel.set(ControlMode.PercentOutput, 0);
     }
   }
 
+  private boolean isShooting = false;
 
+  public void startShooting() { isShooting = true; }
+  public void stopShooting() { isShooting = false; }
 
-  // Pneumatics
-  // DoubleSolenoid doubleSolenoid = new DoubleSolenoid(1, 2);
+  /** Loading **/
+  DigitalInput irSensor = new DigitalInput(Constants.SensorPorts.IRSensor);
+  
+  public boolean isLoaded()
+  {
+    return irSensor.get();
+  }
 
-  // public void startShooting()
-  // {
-  //   doubleSolenoid.set(Value.kForward);
-  // }
+  /** Helper methods **/
 
-  // @Override
-  // public void periodic() {
-  //   // This method will be called once per scheduler run
-  //   doubleSolenoid.set(Value.kOff);
-  // }
+  private static double clamp (double x, double min, double max)
+  {
+    return Math.max(Math.min(x, max), min);
+  }
+
 }
